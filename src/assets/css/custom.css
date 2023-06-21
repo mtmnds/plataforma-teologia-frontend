@@ -71,3 +71,9 @@
 .custom-section-list li:hover a {
   color: #FFFFFF;
 }
+
+.app-logo {
+  margin-right: 16px;
+  max-height: 32px;
+  max-width: 32px;
+}
