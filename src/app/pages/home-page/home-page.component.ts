@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HomePageService } from './home-page.service';
 
 @Component({
   selector: 'app-home-page',
@@ -7,7 +8,7 @@ import { Component } from '@angular/core';
 })
 export class HomePageComponent {
 
-  public recentPubs: any[] = [
+  /*public recentPubs: any[] = [
     {
       title: "Gênesis",
       desc: "Esse é o livro das origens, pois conta a origem do mundo, da humanidade e do povo hebreu. Os prim...",
@@ -44,6 +45,32 @@ export class HomePageComponent {
       link: "material/josue",
       imgUrl: "assets/images/posts/josue.jpg"
     },
-  ];
+  ];*/
+
+  public recentPubs: any[] = [];
+
+  constructor(
+    private homePageService: HomePageService
+  ) { }
+
+  ngOnInit(): void {
+    this.homePageService.buscarMateriaisHome().subscribe(
+      (res: any) => {
+        if (res) {
+          this.recentPubs = res.map((item: any) => {
+            return {
+              title: item.titulo,
+              desc: item.descricao,
+              link: `material/${item.id}`,
+              imgUrl: item.urlImagem
+            }
+          });
+        }
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
 
 }
