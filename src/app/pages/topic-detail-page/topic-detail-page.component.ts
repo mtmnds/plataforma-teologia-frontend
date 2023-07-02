@@ -31,7 +31,10 @@ export class TopicDetailPageComponent {
             };
 
             res.paragrafos.forEach((item: any) => {
-              this.topicInfo.desc.push(item.conteudo.join(""));
+              this.topicInfo.desc.push({
+                content: item.conteudo.join(""),
+                studies: item.estudos
+              });
             });
           }
         },

@@ -1,0 +1,9 @@
+.content-topic-desc {
+    background-color: none;
+    transition: 0.2s ease;
+    cursor: pointer;
+}
+
+.content-topic-desc:hover {
+    background-color: rgba(33, 33, 233, 0.1);
+}

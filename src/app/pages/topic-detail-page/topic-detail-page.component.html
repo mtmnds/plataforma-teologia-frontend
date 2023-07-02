@@ -60,7 +60,14 @@
             <div class="row">
                 <div class="col-lg-8 col-12 m-auto">
                     <h3 class="mb-4">{{ topicInfo.title }}</h3>
-                    <p *ngFor="let descTopic of topicInfo.desc">{{ descTopic }}</p>
+                    <div class="row content-topic-desc mt-3 mb-3" *ngFor="let descTopic of topicInfo.desc">
+                        <div class="col-1">
+                            <i *ngIf="descTopic.studies && descTopic.studies.length > 0" class="bi bi-journal-bookmark"></i>
+                        </div>
+                        <div class="col-11">
+                            <p>{{ descTopic.content }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
