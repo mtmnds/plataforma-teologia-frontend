@@ -10,6 +10,10 @@ import { TopicDetailPageService } from './topic-detail-page.service';
 export class TopicDetailPageComponent {
 
   public topicInfo: any = {};
+  public selectedTopic: any = {
+    content: "",
+    studies: []
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -43,6 +47,22 @@ export class TopicDetailPageComponent {
         }
       );
     }
+  }
+
+  changeSelectedTopic(topic: any) {
+    this.selectedTopic = topic;
+  }
+
+  formatDate(dateAsString: string) {
+    if (dateAsString) {
+      const dt = dateAsString.split("T")[0];
+      const hr = dateAsString.split("T")[1].split(".")[0];
+      const y = dt.split("-")[0];
+      const m = dt.split("-")[1];
+      const d = dt.split("-")[2];
+      return `${d}/${m}/${y} ${hr}`;
+    }
+    return dateAsString;
   }
 
 }
