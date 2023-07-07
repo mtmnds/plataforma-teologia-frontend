@@ -2,6 +2,12 @@
 
 pipeline {
     agent any
+    environment {
+        aws_credential = 'AWS_CREDENTIALS'
+        region = 'sa-east-1'
+        dist_folder = 'dist/plataforma-teologia'
+        aws_bucket = 'plataforma-teologia-frontend'
+    }
     tools { nodejs 'node' }
     stages {
         stage('Checkout') {
@@ -15,21 +21,27 @@ pipeline {
             steps {
                 sh 'npm install'
                 sh 'npm install -g @angular/cli'
-                sh 'ng --version'
             }
         }
 
-        stage('Build') {
+        stage('Build application') {
             steps {
                 sh 'ng build --configuration=production'
-                sh 'docker build --tag=plataforma-teologia-frontend:latest .'
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'docker run -p8886:80 plataforma-teologia-frontend:latest'
-            }
+                // sh 'echo "Teste do deploy"'
+                /*withAWS(region:"${region}", credentials:"${aws_credential}) {
+                    s3Upload(file:"${TAG_NAME}", bucket:"${bucket}", path:"${TAG_NAME}/")
+                } */
+                withAWS(region:"${region}", credentials:"${aws_credential}") {
+                    // s3Upload(file:"${dist_folder}", bucket:"${aws_bucket}")
+                    // s3Upload(bucket:"${aws_bucket}", path:"${dist_folder}", includePathPattern:'**/*')
+                    s3Upload(bucket:"${aws_bucket}", path:"", workingDir:"${dist_folder}", includePathPattern:'**/*')
+                }
         }
     }
+}
 }
