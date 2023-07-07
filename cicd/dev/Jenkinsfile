@@ -1,0 +1,35 @@
+#!groovy
+
+pipeline {
+    agent any
+    tools { nodejs 'node' }
+    stages {
+        stage('Checkout') {
+            steps {
+                deleteDir()
+                checkout scm
+            }
+        }
+
+        stage('Dependencies download') {
+            steps {
+                sh 'npm install'
+                sh 'npm install -g @angular/cli'
+                sh 'ng --version'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'ng build --configuration=production'
+                sh 'docker build --tag=plataforma-teologia-frontend:latest .'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'docker run -p8886:80 plataforma-teologia-frontend:latest'
+            }
+        }
+    }
+}
