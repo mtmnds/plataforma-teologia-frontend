@@ -32,13 +32,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // sh 'echo "Teste do deploy"'
-                /*withAWS(region:"${region}", credentials:"${aws_credential}) {
-                    s3Upload(file:"${TAG_NAME}", bucket:"${bucket}", path:"${TAG_NAME}/")
-                } */
                 withAWS(region:"${region}", credentials:"${aws_credential}") {
-                    // s3Upload(file:"${dist_folder}", bucket:"${aws_bucket}")
-                    // s3Upload(bucket:"${aws_bucket}", path:"${dist_folder}", includePathPattern:'**/*')
                     s3Upload(bucket:"${aws_bucket}", path:"", workingDir:"${dist_folder}", includePathPattern:'**/*')
                 }
         }
